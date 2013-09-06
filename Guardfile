@@ -6,6 +6,11 @@ guard 'rspec', after_all_pass: false do
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
 
+  watch(%r{^app/views/(.+)/}) do |m|
+    (m[1][/_pages/] ? "spec/requests/#{m[1]}_spec.rb" :
+                      "spec/requests/#{m[1].singularize}_pages_spec.rb")
+  end
+
   # Rails example
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
